@@ -1,0 +1,80 @@
+
+from tkinter import *
+
+
+
+win=Tk() #창생성
+
+
+
+def clicked(digit):
+    
+    if digit =='<':
+        #하나씩 숫자 삭제
+        input_entry.delete(len(input_entry.get())-1)
+    else:
+        input_entry.insert(END,digit)
+
+def del_digit():
+
+    input_entry.delete(0,END)
+    result_label.config(text="")
+
+def calculate():
+    try:
+        result=eval(input_entry.get())
+    except:
+        result_label.config(text="계산식 오류")
+    else:
+         result_label.config(text=result)
+
+
+
+
+
+win.geometry("500x500")
+
+win.title("계산기")
+
+win.option_add ("*Font","맑은고딕25")#글씨 폰트
+
+win.configure(padx=10, pady=10,bg='IVORY')#창 색깔
+
+
+digits= [
+    ['7','8','9','*'],
+    ['4','5','6','/'],
+    ['1','2','3','-'],
+    ['0','.','<','+']
+]
+
+
+
+input_entry=Entry(win,width=30,font=("맑은 고딕",20),bg='skyblue',justify=RIGHT)
+
+input_entry.grid(column=0,row=0,columnspan=4)
+input_entry.focus()
+
+
+result_label=Label(win,text="",width=20,font=("맑은 고딕",30),bg='skyblue')
+
+result_label.grid (column=0, row=1,columnspan=4,pady=15)
+
+for r in range(4):
+    for c in range(4):
+        digit =digits[r][c]
+        button=Button(win,text=digit,width=8,font=("맑은 고딕",15),bg='pink',command=lambda x=digit :clicked(x))
+
+
+
+
+
+        button.grid(row=r+2,column=c,pady=2)
+clear_button=Button(win,text="c",width=17,font=("맑은 고딕",15),bg='skyblue',command= del_digit)
+clear_button.grid(column=0,row=6,columnspan=2,pady=5)
+
+cal_button=Button(win,text="=",width=17,font=("맑은 고딕",15),bg='skyblue',command=calculate)
+cal_button.grid(column=2,row=6,columnspan=2,pady=5)
+
+
+win.mainloop()#창 실행
